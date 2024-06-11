@@ -30,17 +30,13 @@ public class AuthController {
 	}
 
 	@PostMapping("/register")
-	public User createUser(@RequestBody UserRequest userRequest) {
+	public ResponseEntity<User> createUser(@RequestBody UserRequest userRequest) {
 
 		System.out.println("Request recieved in controller | userRequest:" + userRequest);
 		User response = userService.register(userRequest);
 		System.out.println("Returning response...");
-		return response;
+		return ResponseEntity.ok(response);
 	}
 
-	@ExceptionHandler(BadCredentialsException.class)
-	public String exceptionHandler() {
-		return "Credentials Invalid !!";
-	}
 
 }

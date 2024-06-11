@@ -1,6 +1,7 @@
 package com.mypack.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -9,7 +10,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.mypack.constants.ErrorCodeEnum;
 import com.mypack.entities.User;
+import com.mypack.exception.ProgramExeption;
 import com.mypack.pojo.JwtRequest;
 import com.mypack.pojo.JwtResponse;
 import com.mypack.pojo.UserRequest;
@@ -74,7 +77,9 @@ public class UserServiceImpl implements UserService {
 
 		} catch (BadCredentialsException e) {
 			System.out.println("Exception occurred BadCredentialsException | e:" + e);
-			throw new BadCredentialsException(" Invalid Username or Password  !!");
+			throw new ProgramExeption(HttpStatus.UNAUTHORIZED,
+					ErrorCodeEnum.INVALID_CREDENTIALS.getErrorCode(),
+					ErrorCodeEnum.INVALID_CREDENTIALS.getErrorMessage());
 		}
 
 	}
